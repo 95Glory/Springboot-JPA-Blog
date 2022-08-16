@@ -11,42 +11,38 @@
 <body>
 <div th:replace="/layout/nav.html :: fragment-nav"></div>
 
+<div th:if="${board.getUser().username == #authentication.name}">
+    <button class="btn btn-secondary" onclick="history.back()">돌아가기</button>
+    <a th:href="@{/board/{id}/updateForm(id=${board.id})}" class="btn btn-primary">수정</a>
+    <button id="btn-delete" class="btn btn-danger">삭제</button>
+    <br/><br/>
+</div>
 
-<div class="container">
-    <form>
-        <div class="form-group">
-            <div class="form-group">
-                <label for="category">카테고리:</label>
-                <select class="form-control" id="category">
-                    <option th:value="daily">일상</option>
-                    <option th:value="date">데이트</option>
-                </select>
-            </div>
-
-            <label for="title">Title</label>
-            <input type="text" class="form-control" placeholder="Enter title" id="title">
-        </div>
-
-        <div class="form-group">
-            <label for="content">Content</label>
-            <textarea class="form-control summernote" rows="5" id="content"></textarea>
-        </div>
-    </form>
-    <button id="btn-save" class="btn btn-primary">글쓰기</button>
-    <!-- 버튼을 밖으로 빼는건 json 요청을 하기 때문이다 -->
+<div th:unless="${board.getUser().username == #authentication.name}">
+    <button class="btn btn-secondary" onclick="history.back()">돌아가기</button>
+    <br/><br/>
 </div>
 
 
-<!-- 썸머노트 사용 -->
-<script>
-    $('.summernote').summernote({
-        tabsize: 2,
-        height: 300,
+<div>
+    글번호 : <span th:id="id"><i th:text="${board.id}"></i></span><br>
+    작성자 : <span><i th:text="${board.getUser().getUsername()}"></i></span><br>
+</div>
+<br>
 
-    //    반응형
-        width: "100%",
-    });
-</script>
+<div class="container">
+    <div class="form-group">
+        <h3 th:text="${board.title}"></h3>
+    </div>
+    <hr>
+
+    <!--   th:utext 를 사용해야 DB안에 html태그까지 모두 적용함    -->
+    <div class="form-group">
+        <div th:utext="${board.content}"></div>
+    </div>
+    <hr>
+
+</div>
 
 <script src="/js/board.js"></script>
 <footer th:replace="/layout/footer.html :: fragment-footer"></footer>

@@ -14,25 +14,24 @@
 
 <div class="container">
     <form>
-        <div class="form-group">
-            <div class="form-group">
-                <label for="category">카테고리:</label>
-                <select class="form-control" id="category">
-                    <option th:value="daily">일상</option>
-                    <option th:value="date">데이트</option>
-                </select>
-            </div>
+        <input type="hidden" id="id" th:value="${board.id}">
 
-            <label for="title">Title</label>
-            <input type="text" class="form-control" placeholder="Enter title" id="title">
+        <div class="form-group">
+            <label for="category">카테고리:</label>
+            <select class="form-control" id="category">
+                <option th:value="daily">일상</option>
+                <option th:value="date">데이트</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input th:value="${board.getTitle()}" type="text" class="form-control" placeholder="Enter title" id="title">
         </div>
 
         <div class="form-group">
-            <label for="content">Content</label>
-            <textarea class="form-control summernote" rows="5" id="content"></textarea>
+            <textarea th:utext="${board.getContent()}" class="form-control summernote" rows="5" id="content"></textarea>
         </div>
     </form>
-    <button id="btn-save" class="btn btn-primary">글쓰기</button>
+    <button id="btn-update" class="btn btn-primary">수정하기</button>
     <!-- 버튼을 밖으로 빼는건 json 요청을 하기 때문이다 -->
 </div>
 
@@ -42,13 +41,10 @@
     $('.summernote').summernote({
         tabsize: 2,
         height: 300,
-
-    //    반응형
-        width: "100%",
     });
 </script>
 
 <script src="/js/board.js"></script>
 <footer th:replace="/layout/footer.html :: fragment-footer"></footer>
-</body>
+</body>++++
 </html>
